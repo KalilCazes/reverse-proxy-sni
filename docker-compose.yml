@@ -3,22 +3,22 @@ version: '3'
 services:
 
   reverse-proxy:
-    ports:
-      - "8000"
     build:
       context: ./proxy
     network_mode: "host"
-
+    environment:
+      - TZ=America/Sao_Paulo
+      
   application1:
-    ports:
-      - "8080"
     build:
       context: ./service1
     network_mode: "host"
+    environment:
+      - TZ=America/Sao_Paulo
 
   application2:
-    ports:
-      - "8081"
     build:
       context: ./service2
     network_mode: "host"
+    environment:
+      - TZ=America/Sao_Paulo
