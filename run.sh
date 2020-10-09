@@ -9,7 +9,7 @@ fi
 echo "$(tput setaf 2)----------------------------------------------------------------------$(tput sgr 0)"
 
 echo "$(tput setaf 2)[INFO]$(tput sgr 0) Removing previous generated keys"
-rm proxy/*.key && rm proxy/*.crt && rm proxy/*.csr && rm proxy/*.log 2> /dev/null
+rm -f proxy/*.key && rm -f proxy/*.crt && rm -f proxy/*.csr && rm -f proxy/*.log 2> /dev/null
 
 
 echo "$(tput setaf 2)[INFO]$(tput sgr 0) Creating self-signed certificate for localhost1 on dir proxy..."
