@@ -9,7 +9,10 @@ import (
 func main() {
 	http.HandleFunc("/", helloServer)
 	fmt.Println("Application 1 running on port 8080...")
-	http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func helloServer(w http.ResponseWriter, r *http.Request) {

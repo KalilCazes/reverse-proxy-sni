@@ -42,7 +42,10 @@ func ParseConfigFile(filePath string) ProxyConfig {
 		log.Fatal(err)
 	}
 	config := ProxyConfig{}
-	yaml.Unmarshal(configFile, &config)
+	err = yaml.Unmarshal(configFile, &config)
+	if err != nil {
+		log.Fatal(err)
+	}
 	return config
 }
 
@@ -51,16 +54,6 @@ func reverseProxyHandler(rp *httputil.ReverseProxy) func(http.ResponseWriter, *h
 		log.Println(r.URL)
 		rp.ServeHTTP(w, r)
 	}
-}
-
-func redirect(from string, to string) {
-	redirectedURL, err := url.Parse(to)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	reverseProxy := httputil.NewSingleHostReverseProxy(redirectedURL)
-	http.HandleFunc(from, reverseProxyHandler(reverseProxy))
 }
 
 func setUpRedirection(i int, redirection ProxyRedirection, tlsConfig *tls.Config) {
