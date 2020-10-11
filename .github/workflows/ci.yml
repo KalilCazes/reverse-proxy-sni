@@ -36,8 +36,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name : Add hosts to /etc/hosts
-        run: sudo echo "127.0.0.1 localhost localhost1 localhost2" | sudo tee -a /etc/hosts
+      - name : Add hosts to /etc/hosts and generate certificates
+        run: sudo ./initKey.sh
         
       - name: Test code
         run: go test ./proxy
