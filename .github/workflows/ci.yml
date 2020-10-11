@@ -40,4 +40,4 @@ jobs:
         run: sudo ./initKey.sh
         
       - name: Test code
-        run: go test ./proxy
+        run: sudo go test ./proxy
