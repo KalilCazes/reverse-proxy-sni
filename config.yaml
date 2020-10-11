@@ -1,0 +1,13 @@
+network: "tcp"
+port: ":8000"
+redirections:
+  -
+    from_pattern: "localhost1/"
+    to_url: "http://localhost:8080"
+    crt_path: "proxy/localhost1.crt"
+    key_path: "proxy/localhost1.key"
+  -
+    from_pattern: "localhost2/"
+    to_url: "http://localhost:8081"
+    crt_path: "proxy/localhost2.crt"
+    key_path: "proxy/localhost2.key"
