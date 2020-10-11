@@ -8,6 +8,7 @@ import (
 	"net"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -30,7 +31,7 @@ func Newhandler(h string) *Handler {
 	return newHandler
 }
 
-func TestReverseProxy(t *testing.T) {
+func TestRedirection(t *testing.T) {
 	//setup reverse proxy
 	reverseProxy := NewReverseProxy(ParseConfigFile("../config-test.yaml"))
 	proxyServer := &httptest.Server{
@@ -90,4 +91,16 @@ func TestConfigParser(t *testing.T) {
 	assert.Equal(t, config.Redirections[1].FromPattern, "localhost2/")
 	assert.Equal(t, config.Redirections[1].CrtPath, "../proxy/localhost2.crt")
 	assert.Equal(t, config.Redirections[1].KeyPath, "../proxy/localhost2.key")
+}
+
+func TestNewReverseProxy(t *testing.T) {
+
+	http.DefaultServeMux = new(http.ServeMux)
+
+	reverseProxy := NewReverseProxy(ParseConfigFile("../config-test.yaml"))
+
+	assert.Equal(t, reverseProxy.listener.Addr().Network(), "tcp")
+	assert.Equal(t, len(reverseProxy.server.TLSConfig.Certificates), 2)
+	assert.True(t, strings.Contains(reverseProxy.listener.Addr().String(), "25000"))
+
 }
