@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
-
-export HOSTALIASES=~/.hosts
+current_user=$(who | awk 'NR==1{print $1}')
 
 echo "$(tput setaf 2)----------------------------------------------------------------------$(tput sgr 0)"
 
 grep "127.0.0.1 localhost localhost1 localhost2" /etc/hosts &> /dev/null
 
 if [[ $? -ne 0 ]]; then
-   echo -e "\n127.0.0.1 localhost localhost1 localhost2" >> ~/.hosts
+   echo -e "\n127.0.0.1 localhost localhost1 localhost2" >> /etc/hosts
 fi
 
 echo "$(tput setaf 2)[INFO]$(tput sgr 0) Removing previous generated keys"
@@ -23,4 +22,6 @@ openssl  x509  -req  -days 365  -in proxy/localhost2.csr  -signkey proxy/localho
 
 echo "$(tput setaf 2)[INFO]$(tput sgr 0) Creating log file for operation above on dir proxy..."
 
+echo "$(tput setaf 2)[INFO]$(tput sgr 0) Changing the certificate's permission..."
+sudo chown ${current_user} -R proxy
 echo "$(tput setaf 2)----------------------------------------------------------------------$(tput sgr 0)"
